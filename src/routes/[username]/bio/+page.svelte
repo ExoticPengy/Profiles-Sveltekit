@@ -2,6 +2,7 @@
     import type { PageData } from "./$types";
     import { page } from '$app/stores';
     import { enhance } from "$app/forms";
+    import { userData } from "$lib/firebase";
 
   
     export let data: PageData;
@@ -28,6 +29,8 @@
         />
       </div>
       <button class="btn btn-primary my-5">Update Bio</button>
+      <br/>
+      <a class="btn btn-outline btn-xs" href={`../${$userData?.username}/edit`}>Back</a>
     </form>
   </main>
   

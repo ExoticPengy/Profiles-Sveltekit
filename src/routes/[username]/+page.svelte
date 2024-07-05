@@ -1,7 +1,10 @@
 <script lang="ts">
     import UserLink from "$lib/components/UserLink.svelte";
+    import { userData } from "$lib/firebase";
     import type { PageData } from "./$types";
     
+    $: href = `/${$userData?.username}/edit`;
+
     export let data: PageData;
 </script>
     
@@ -11,9 +14,9 @@
 </svelte:head>
     
     
-<main class="prose text-center mx-auto mt-8">
+<main class="prose text-center mx-auto mt-5">
 
-    <h1 class="text-7xl text-purple-500">
+    <h1 class="text-7xl text-blue-500 mb-5">
     @{data.username}
     </h1>
 
@@ -32,6 +35,8 @@
     </li>
     {/each}
     </ul>
+
+    <a {href} class="btn btn-primary mt-5 mx-auto">Edit Profile</a>
 
 </main>
     

@@ -99,7 +99,8 @@
   
       <div class="text-center my-4">
         <a class="btn btn-outline btn-xs" href="/login/photo">Change photo</a>
-        <a class="btn btn-outline btn-xs" href={`/${$userData.username}/bio`}>Edit Bio</a>
+        <a class="btn btn-outline btn-xs" href={`../${$userData.username}/bio`}>Edit Bio</a>
+        <a class="btn btn-outline btn-xs" href={`../${$userData.username}`}>Profile</a>
       </div>
   
       <form class="form-control">
