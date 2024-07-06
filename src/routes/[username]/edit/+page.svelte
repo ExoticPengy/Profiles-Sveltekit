@@ -92,7 +92,7 @@
             href={`/${$userData?.username}`}
             class="link link-accent"
           >
-            https://exoticpengy.github.io/{$userData?.username}
+            https://exoticpengy.vercel.app/{$userData?.username}
           </a>
         </p>
       </div>

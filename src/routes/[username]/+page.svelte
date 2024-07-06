@@ -36,7 +36,13 @@
     {/each}
     </ul>
 
-    <a {href} class="btn btn-primary mt-5 mx-auto">Edit Profile</a>
+    {#if $userData?.username == data.username}
+        <a {href} class="btn btn-primary my-5 mx-auto">Edit Profile</a>
+    {:else}
+        <a href={`/${$userData?.username}`} class="btn btn-primary my-5 mx-auto">Go To My Profile</a>
+    {/if}
 
+    <a href="/" class="btn btn-primary my-5 mx-auto">Go Home</a>
+    
 </main>
     
