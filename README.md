@@ -1,38 +1,43 @@
-# create-svelte
+# Profiles · SvelteKit
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A link-in-bio profile page builder — like Linktree — built with SvelteKit. Sign in with Google, claim a username, upload a photo, and share a personalized page of links.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Google Sign-In** — Firebase Authentication with server-side session cookies
+- **Username Registration** — Unique @handle with real-time availability checking
+- **Profile Photo Upload** — Firebase Storage with live preview and progress
+- **Link Management** — Add, reorder (drag-and-drop), and delete social/media links
+- **Bio Editor** — Server-side form with 260-character validation
+- **Public/Private Toggle** — Publish or hide your profile
+- **Custom Icons** — Twitter, YouTube, TikTok, LinkedIn, GitHub, plus custom URLs
+- **Dark Theme** — Tailwind CSS + DaisyUI
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Tech Stack
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+| Layer | Technology |
+|-------|-----------|
+| Framework | SvelteKit 2 (Svelte 4) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + DaisyUI |
+| Auth | Firebase Authentication (Google pop-up) |
+| Database | Firebase Firestore |
+| Storage | Firebase Storage |
+| Hosting | Vercel (`@sveltejs/adapter-vercel`) |
 
-## Developing
+## Firebase Collections
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- **`usernames`** — `{ username: uid }` for uniqueness enforcement
+- **`users`** — `{ username, bio, photoURL, published, links[] }`
 
-```bash
-npm run dev
+## Setup
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. `npm install`
+2. Create a Firebase project with Authentication (Google), Firestore, and Storage
+3. Set environment variables for Firebase Admin SDK credentials (used in `src/lib/server/admin.ts`)
+4. `npm run dev` — starts the SvelteKit dev server
+5. `npm run build` — builds for Vercel deployment
 
-## Building
+## Routes
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+`/` → `/login` → `/login/username` → `/login/photo` → `/[username]` → `/[username]/edit` → `/[username]/bio`
