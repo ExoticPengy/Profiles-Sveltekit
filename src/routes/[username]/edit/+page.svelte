@@ -32,6 +32,7 @@
     const formData = writable(formDefaults);
   
     let showForm = false;
+    let editingId: string | null = null;
   
     $: urlIsValid = $formData.url.match(/^(ftp|http|https):\/\/[^ "]+$/);
     $: titleIsValid = $formData.title.length < 20 && $formData.title.length > 0;
@@ -43,19 +44,37 @@
       setDoc(userRef, { links: newList }, { merge: true });
     }
   
-    async function addLink(e: SubmitEvent) {
+    async function saveLink(e: SubmitEvent) {
       const userRef = doc(db, "users", $user!.uid);
-  
-      await updateDoc(userRef, {
-        links: arrayUnion({
-          ...$formData,
-          id: Date.now().toString(),
-        }),
-      });
-  
+
+      if (editingId) {
+        // Replace the existing link in place, preserving its id/order.
+        const newList = ($userData?.links ?? []).map((l) =>
+          l.id === editingId ? { ...$formData, id: editingId } : l
+        );
+        await setDoc(userRef, { links: newList }, { merge: true });
+      } else {
+        await updateDoc(userRef, {
+          links: arrayUnion({
+            ...$formData,
+            id: Date.now().toString(),
+          }),
+        });
+      }
+
       formData.set(formDefaults);
-  
+      editingId = null;
       showForm = false;
+    }
+
+    function editLink(item: any) {
+      formData.set({
+        icon: item.icon ?? "custom",
+        title: item.title ?? "",
+        url: item.url ?? "https://",
+      });
+      editingId = item.id ?? null;
+      showForm = true;
     }
   
     async function deleteLink(item: any) {
@@ -74,6 +93,7 @@
   
     function cancelLink() {
       formData.set(formDefaults);
+      editingId = null;
       showForm = false;
     }
 
@@ -286,6 +306,11 @@
         <div class="group relative">
           <UserLink {...item} />
           <button
+            on:click={() => editLink(item)}
+            class="btn btn-xs btn-info invisible group-hover:visible transition-all absolute -left-6 bottom-10"
+            >Edit</button
+          >
+          <button
             on:click={() => deleteLink(item)}
             class="btn btn-xs btn-error invisible group-hover:visible transition-all absolute -right-6 bottom-10"
             >Delete</button
@@ -294,9 +319,12 @@
       </SortableList>
       {#if showForm}
         <form
-          on:submit|preventDefault={addLink}
+          on:submit|preventDefault={saveLink}
           class="mx-auto w-full rounded-2xl glass p-6"
         >
+          <h3 class="mb-4 text-center font-bold text-white">
+            {editingId ? "Edit link" : "Add a link"}
+          </h3>
           <select
             name="icon"
             class="select select-sm"
@@ -336,14 +364,18 @@
           <button
             disabled={!formIsValid}
             type="submit"
-            class="btn btn-success block">Add Link</button
+            class="btn btn-success block">{editingId ? "Save Changes" : "Add Link"}</button
           >
-  
+
           <button type="button" class="btn btn-xs my-4" on:click={cancelLink}>Cancel</button>
         </form>
       {:else}
         <button
-          on:click={() => (showForm = true)}
+          on:click={() => {
+            formData.set(formDefaults);
+            editingId = null;
+            showForm = true;
+          }}
           class="btn btn-outline btn-info block mx-auto my-4"
         >
           Add a Link

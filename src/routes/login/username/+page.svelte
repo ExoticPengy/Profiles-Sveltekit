@@ -61,7 +61,9 @@
           >@{$userData.username}</span
         >
       </p>
-      <p class="text-sm">(Usernames cannot be changed)</p>
+      <p class="text-sm text-base-content/50">
+        You can change this later on your Edit Profile page.
+      </p>
       <a class="btn btn-primary" href="/login/photo">Upload Profile Image</a>
     {:else}
       <form class="w-2/5" on:submit|preventDefault={confirmUsername}>
