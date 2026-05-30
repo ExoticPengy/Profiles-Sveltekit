@@ -38,17 +38,11 @@
         const batch = writeBatch(db);
         batch.set(doc(db, "usernames", username), { uid: $user?.uid });
         batch.set(doc(db, "users", $user!.uid), { 
-        username, 
+        username,
         photoURL: $user?.photoURL ?? null,
         published: true,
-        bio: 'Am I Pengy?',
-        links: [
-            {
-            title: 'Test Link',
-            url: 'https://exoticpengy.github.io',
-            icon: 'custom'
-            }
-        ]
+        bio: '',
+        links: []
     });
 
     await batch.commit();

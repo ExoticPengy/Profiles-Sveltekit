@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: #0f0d18;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /*
+   * Fixed gradient backdrop on its own layer. Using a fixed pseudo-element
+   * instead of `background-attachment: fixed` on <body>, which is buggy on
+   * mobile browsers (iOS Safari / mobile Chrome) and can break page scrolling.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: #0f0d18;
+    background-image:
+      radial-gradient(40rem 40rem at 15% -10%, rgba(139, 92, 246, 0.28), transparent 60%),
+      radial-gradient(36rem 36rem at 110% 0%, rgba(236, 72, 153, 0.22), transparent 55%),
+      radial-gradient(46rem 46rem at 50% 120%, rgba(34, 211, 238, 0.16), transparent 60%);
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.4);
+  }
+
+  /* Themed scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #8b5cf6 transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: linear-gradient(#8b5cf6, #ec4899);
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface */
+  .glass {
+    @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+    box-shadow:
+      0 10px 40px -12px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Animated gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(110deg, #c4b5fd, #f0abfc, #67e8f9, #c4b5fd);
+    background-size: 200% auto;
+    @apply animate-gradient-pan;
+  }
+
+  /* Gradient-bordered button feel for primary CTAs */
+  .btn-glow {
+    box-shadow: 0 8px 30px -8px rgba(139, 92, 246, 0.7);
+  }
+
+  .ring-aurora {
+    @apply ring ring-offset-4 ring-offset-base-100;
+    --tw-ring-color: rgba(139, 92, 246, 0.6);
+  }
+}

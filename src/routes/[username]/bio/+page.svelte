@@ -10,7 +10,7 @@
   </script>
   
 
-<main class="max-w-lg prose text-center mx-auto my-6">
+<main class="prose mx-auto my-12 max-w-lg rounded-3xl glass px-8 py-10 text-center">
   
     <p>Current Bio: <span class="text-info">{data.bio}</span></p>
   
