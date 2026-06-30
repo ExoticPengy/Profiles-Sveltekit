@@ -1,43 +1,48 @@
-# Profiles · SvelteKit
+# Profiles 🔗
 
-A link-in-bio profile page builder — like Linktree — built with SvelteKit. Sign in with Google, claim a username, upload a photo, and share a personalized page of links.
+> Your own link-in-bio page — like Linktree — that you build in a few clicks.
 
-## Features
+🔗 **Live:** [profiles.exoticpengy.me](https://profiles.exoticpengy.me)
 
-- **Google Sign-In** — Firebase Authentication with server-side session cookies
-- **Username Registration** — Unique @handle with real-time availability checking
-- **Profile Photo Upload** — Firebase Storage with live preview and progress
-- **Link Management** — Add, reorder (drag-and-drop), and delete social/media links
-- **Bio Editor** — Server-side form with 260-character validation
-- **Public/Private Toggle** — Publish or hide your profile
-- **Custom Icons** — Twitter, YouTube, TikTok, LinkedIn, GitHub, plus custom URLs
-- **Dark Theme** — Tailwind CSS + DaisyUI
+## About
 
-## Tech Stack
+One link to share everywhere. Sign in, claim a username, add a photo and a short bio, then collect all your important links onto a single clean page you can hand out on any platform.
+
+What you can do:
+
+- **Sign in with Google** — no new password to remember
+- **Claim a username** — pick your `@handle`, checked for availability as you type
+- **Add a profile photo** — upload with a live preview and progress bar
+- **Manage your links** — add, delete, and **drag to reorder** them
+- **Write a bio** — a short intro, validated up to 260 characters
+- **Go public or stay private** — flip a switch to publish or hide your page
+- **Recognizable icons** — Twitter, YouTube, TikTok, LinkedIn, GitHub, and custom URLs
+- **Dark theme** — clean, easy on the eyes
+
+Your finished page lives at `/@yourname` — share that, and visitors see your photo, bio, and links.
+
+---
+
+## Tech
 
 | Layer | Technology |
 |-------|-----------|
 | Framework | SvelteKit 2 (Svelte 4) |
 | Language | TypeScript |
 | Styling | Tailwind CSS + DaisyUI |
-| Auth | Firebase Authentication (Google pop-up) |
+| Auth | Firebase Authentication (Google) with server-side session cookies |
 | Database | Firebase Firestore |
 | Storage | Firebase Storage |
 | Hosting | Vercel (`@sveltejs/adapter-vercel`) |
 
-## Firebase Collections
+Usernames are enforced unique via a dedicated `usernames` collection (`{ username: uid }`); profile data lives in `users` (`{ username, bio, photoURL, published, links[] }`).
 
-- **`usernames`** — `{ username: uid }` for uniqueness enforcement
-- **`users`** — `{ username, bio, photoURL, published, links[] }`
+### Run locally
 
-## Setup
+```bash
+npm install
+npm run dev      # SvelteKit dev server
+npm run build    # build for Vercel
+```
 
-1. `npm install`
-2. Create a Firebase project with Authentication (Google), Firestore, and Storage
-3. Set environment variables for Firebase Admin SDK credentials (used in `src/lib/server/admin.ts`)
-4. `npm run dev` — starts the SvelteKit dev server
-5. `npm run build` — builds for Vercel deployment
-
-## Routes
-
-`/` → `/login` → `/login/username` → `/login/photo` → `/[username]` → `/[username]/edit` → `/[username]/bio`
+Create a Firebase project with Authentication (Google), Firestore, and Storage, then set the Firebase Admin SDK credentials as environment variables (used in `src/lib/server/admin.ts`).
